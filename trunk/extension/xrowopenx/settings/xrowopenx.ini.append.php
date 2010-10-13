@@ -10,30 +10,30 @@ SiteID=2
 # It is the ID of the Website you setup in Openx(OpenX Admin -> Inventory -> Websites). 
 
 BannerZones[]
-#BannerZones[zone_1_1]=1
-#BannerZones[zone_2_1]=2
-#BannerZones[zone_3_1]=3
-#BannerZones[zone_4_1]=4
-#BannerZones[zone_5_1]=5
-#BannerZones[zone_6_1]=6
-#BannerZones[zone_7_1]=7
-#BannerZones[zone_8_1]=8
-#BannerZones[zone_9_1]=9
-#BannerZones[zone_10_1]=10
-#BannerZones[zone_11_1]=11
-#BannerZones[zone_12_1]=12
-#BannerZones[zone_13_1]=13
-#BannerZones[zone_14_1]=14
-#BannerZones[zone_15_1]=15
-#BannerZones[zone_16_1]=16
+BannerZones[banner_120x90]=8
+BannerZones[banner_120x60]=9
+BannerZones[banner_468x60]=5
+BannerZones[banner_234x60]=10
+BannerZones[banner_336x280]=7
+BannerZones[banner_728x90]=2
+BannerZones[banner_300x250]=3
+BannerZones[banner_88x31]=11
+BannerZones[banner_180x150]=12
+BannerZones[banner_120x600]=6
+BannerZones[banner_125x125]=13
+BannerZones[banner_250x250)=14
+BannerZones[banner_120x240]=15
+BannerZones[banner_240x400]=16
+BannerZones[banner_160x600]=4
+# BannerZones[KEY]=OpenX Zone ID
 
 # The ads will get implemented on the Website wiht the following JS code.
 # <script type='text/javascript'><!--// <![CDATA[
-# OA_show('zone_1_1');
+# OA_show('Leaderboard_728x90');
 # // ]]> --></script>
 #
 # or use the template operator
 #
-# {openx_show('zone_1_1')}
+# {openx_show('Leaderboard_728x90')}
 
 */ ?>
