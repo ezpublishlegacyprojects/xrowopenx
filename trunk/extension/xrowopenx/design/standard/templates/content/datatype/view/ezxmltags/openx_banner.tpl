@@ -1,5 +1,5 @@
-<div class="banner {$type}">
-{if $block.name}
+<div class="banner {$banner}">
+{if $heading}
 <div class="heading">{$heading|wash}</div>
 {/if}
 <script type='text/javascript'>
@@ -8,10 +8,8 @@
 {if $zone_override}
 OA_show('{$zone_override}');
 {else}
-OA_show('{$type}');
+OA_show('{$banner}}');
 {/if}
 	
 // ]]> --></script>
 </div>
-
-<script type="text/javascript" language="javascript">{$content}</script>

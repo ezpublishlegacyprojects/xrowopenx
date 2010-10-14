@@ -7,8 +7,8 @@ Name=Zone Override
 Title=Chose another named identifier for the banner
 AllowEmpty=true
 
-[CustomAttribute_openx_banner_type]
-Name=Type
+[CustomAttribute_openx_banner_banner]
+Name=Banner
 Title=Choose type of banner
 Default=banner_300x250
 Type=select
