@@ -17,7 +17,7 @@ class xrowopenxServerFunctions extends ezjscServerFunctions
         $xrowopenxIni = eZINI::instance( 'xrowopenx.ini' );
         $serverURL = eZSys::serverURL();
         $adserverDomain = $xrowopenxIni->variable( 'AdserverSettings', 'AdserverURL' );
-        
+
         // get the content of the spcjs.php (var OA_output = new Array(); OA_output['zone_5'] = ''; OA_output['zone_6'] = ''; OA_output['zone_7'] = ''; OA_output['zone_7'] += "<"+"!--Java....)
         $url = $adserverDomain . '/delivery/spcjs.php';
         if ( $xrowopenxIni->variable( 'AdserverSettings', 'SiteID' ) > 0 )
@@ -31,11 +31,11 @@ class xrowopenxServerFunctions extends ezjscServerFunctions
             curl_setopt( $ch, CURLOPT_HEADER, 0 );
             curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
             curl_setopt( $ch, CURLOPT_TIMEOUT, 10 );
-            
+
             $spcjsContent = curl_exec( $ch );
-            
+
             $info = curl_getinfo( $ch );
-            
+
             if ( $info['http_code'] != 200 )
             {
                 $spcjsContent = false;
@@ -75,12 +75,7 @@ class xrowopenxServerFunctions extends ezjscServerFunctions
         return $return;
     }
 
-    /**
-     * Generates the JavaScript needed to add the adserverbannerzones
-     *
-     * @param array $args
-     * @return string JavaScript OA_zones...
-     */
+
     public static function swf()
     {
         $serverURL = eZSys::serverURL();
@@ -97,7 +92,7 @@ class xrowopenxServerFunctions extends ezjscServerFunctions
             curl_setopt( $ch, CURLOPT_TIMEOUT, 10 );
             $flContent = curl_exec( $ch );
             $info = curl_getinfo( $ch );
-            
+
             if ( $info['http_code'] != 200 )
             {
                 $spcjsContent = false;
