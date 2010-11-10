@@ -1,14 +1,17 @@
 <?php
 
-class wuvAdOperator
+class xrowOpenxAdOperator
 {
+
     function xrowOpenxAdOperator()
     {
     }
 
     function operatorList()
     {
-        return array( 'show_ad' );
+        return array( 
+            'show_ad' 
+        );
     }
 
     function namedParameterPerOperator()
@@ -18,12 +21,25 @@ class wuvAdOperator
 
     function namedParameterList()
     {
-        return array( 'show_ad' => array( 'type'     => array( 'type' => 'string',
-                                                               'required' => true,
-                                                               'default' => '' ),
-                                          'node_id'  => array( 'type' => 'integer',
-                                                               'required' => false,
-                                                               'default' => 0 ) ) );
+        return array( 
+            'show_ad' => array( 
+                'type' => array( 
+                    'type' => 'string' , 
+                    'required' => true , 
+                    'default' => '' 
+                ) , 
+                'position' => array( 
+                    'type' => 'integer' , 
+                    'required' => false , 
+                    'default' => 3 
+                ) ,
+                'heading' => array( 
+                    'type' => 'string' , 
+                    'required' => false , 
+                    'default' => '' 
+                ) 
+            ) 
+        );
     }
 
     function modify( $tpl, $operatorName, $operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
@@ -31,81 +47,49 @@ class wuvAdOperator
         switch ( $operatorName )
         {
             case 'show_ad':
-            {
-                $type    = $namedParameters['type'];
-                $nodeID  = $namedParameters['node_id'];
-                $ini     = eZINI::instance( 'wuv.ini' );
-                $adArray = $ini->variable( 'AdSettings', 'AdMatchArea' );
-                $adArea  = $ini->variable( 'AdSettings', 'DefaultAdArea' );
-
-                if ( is_numeric( $nodeID ) AND $nodeID > 0 )
                 {
-                    $node = eZContentObjectTreeNode::fetch( $nodeID );
-                    if ( $node )
+                    
+                    $xml = '<?xml version="1.0" encoding="UTF-8"?><body>' . $operatorValue . '</body>';
+                    
+                    $banner_type = $namedParameters['type'];
+                    $doc = new DOMDocument( '1.0', 'UTF-8' );                
+
+                    if ( $doc->loadXML( $xml ) )
                     {
-                        $pathString = $node->attribute( 'path_string' );
-                        #eZDebug::writeDebug( $pathString, 'path' );
-                        foreach( $adArray as $node => $area )
+                        
+                        $div = $doc->createElement( 'div' );
+                        $div->setAttribute( 'class', 'banner ' . $banner_type );
+                        $js = $doc->createElement( 'script' );
+                        $js->setAttribute( 'type', 'text/javascript' );
+                        $ad = $doc->createComment( "// <![CDATA[ \n OA_show('" . $banner_type . "'); \n // ]]> " );
+                        $js->appendChild( $ad );
+	                      if ( $namedParameters['heading'] )
+	                        {
+	                            $h = $doc->createElement( 'div' );
+	                            $h->setAttribute( 'class', 'heading' );
+	                            $h_text = $doc->createTextNode($namedParameters['heading']);
+	                            $h->appendChild( $h_text );
+	                            $div->appendChild( $h );
+	                        }
+                        $div->appendChild( $js );
+                        
+                        $findnode = $doc->getElementsByTagName( 'p' )->item( $namedParameters['position'] );
+                        if ( $findnode )
                         {
-                            if ( strpos( $pathString, "/" . $node . "/" ) !== false )
+                            $doc->documentElement->insertBefore( $div, $findnode );
+                            $operatorValue = '';
+                            foreach ( $doc->documentElement->childNodes as $node )
                             {
-                                $adArea = $area;
-                                break;
+                                $operatorValue .= $doc->saveXML( $node );
                             }
                         }
                     }
-                }
-                elseif ( is_numeric( $nodeID ) AND $nodeID == 0 )
-                {
-                    $page_uri        = "";
-                    $page_uri_module = "";
-                    $page_uri_view   = "";
-                    $page_uri        = eZURI::instance();
-                    $page_uri_module = $page_uri->element( 0, false );
-                    $page_uri_view   = $page_uri->element( 1, false );
-
-                    foreach( $adArray as $node => $area )
+                    else
                     {
-                        if( !is_numeric( $node ) )
-                        {
-                            $node_uri = explode( "/", $node );
-                            if( count( $node_uri == 2 ) )
-                            {
-                                $module = $node_uri[0];
-                                $view   = $node_uri[1];
-
-                                if ( $module == $page_uri_module AND $view == $page_uri_view )
-                                {
-                                    $adArea = $area;
-                                    break;
-                                }
-                                elseif ( $module == $page_uri_module AND $view == "*" )
-                                {
-                                    $adArea = $area;
-                                    break;
-                                }
-                            }
-                        }
+                        eZDebug::writeError( 'Couldn`t load XML injecting AD "' . $namedParameters['type'] . '"', __METHOD__ );
                     }
                 }
-                elseif ( is_string( $nodeID ) AND $nodeID != '0' )
-                {
-                    if( array_key_exists( $nodeID, $adArray ) )
-                    {
-                        $adArea = $adArray[$nodeID];
-                    }
-                }
-
-                $positionArray = $ini->variable( 'AdSettings', 'AdPositionArray' );
-                if ( isset( $positionArray[$type] ) )
-                    $type = $positionArray[$type];
-                else
-                    return;
-
-                #eZDebug::writeDebug( $type, 'banner type' );
-                $operatorValue = "realmedia( '$type', '$adArea' );";
-
-            } break;
+                break;
         }
     }
 }

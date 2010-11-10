@@ -8,7 +8,7 @@
 {if $zone_override}
 OA_show('{$zone_override}');
 {else}
-OA_show('{$banner}}');
+OA_show('{$banner}');
 {/if}
 	
 // ]]> --></script>
