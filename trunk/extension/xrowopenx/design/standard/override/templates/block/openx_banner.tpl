@@ -1,4 +1,4 @@
-<div class="banner {$block.view}">
+<div class="openxad banner {$block.view}">
 {if $block.name}
 <div class="heading">{$block.name|wash}</div>
 {/if}

@@ -8,5 +8,7 @@ FrontendJavaScriptList[]=xrowopenx::oa_zones
 FrontendJavaScriptList[]=xrowopenx::swf
 FrontendJavaScriptList[]=ezjsc::jquery
 FrontendJavaScriptList[]=jQuery.pagePeel.js
+FrontendJavaScriptList[]=general.js
+
 
 */ ?>

@@ -58,7 +58,7 @@ class xrowOpenxAdOperator
                     {
                         
                         $div = $doc->createElement( 'div' );
-                        $div->setAttribute( 'class', 'banner ' . $banner_type );
+                        $div->setAttribute( 'class', 'banner openxad ' . $banner_type );
                         $js = $doc->createElement( 'script' );
                         $js->setAttribute( 'type', 'text/javascript' );
                         $ad = $doc->createComment( "// <![CDATA[ \n OA_show('" . $banner_type . "'); \n // ]]> " );
